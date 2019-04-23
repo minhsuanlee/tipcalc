@@ -4,31 +4,47 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import java.text.NumberFormat
-import java.util.*
-
+import android.widget.AdapterView
 
 class MainActivity : AppCompatActivity() {
-    private val percentage: Double = 0.15
     private val cur : Regex = Regex("[$,.]")
+    private var percentage: Double = 0.15
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val spinner: Spinner = findViewById(R.id.spinner)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.percent_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+        spinner.setSelection(1)
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (parent != null) {
+                    percentage = parent.getItemAtPosition(position).toString().substring(0, 2).toDouble() / 100
+                }
+            }
+
+        }
+
         val tipBtn = findViewById<Button>(R.id.btnTip)
         tipBtn.isEnabled = false
-        val txtBox = findViewById<EditText>(R.id.txtInput)
 
+        val txtBox = findViewById<EditText>(R.id.txtInput)
         txtBox.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                //val format = NumberFormat.getCurrencyInstance(Locale.US)
-                //txtBox.setText(format.format(s.toString()))
-//                NumberFormat.getInstance(Locale.US)
-//                txtBox.setText("$" + txtBox.getText().toString())
                 tipBtn.isEnabled = true
             }
 

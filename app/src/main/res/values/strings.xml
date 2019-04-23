@@ -2,5 +2,11 @@
     <string name="app_name">TipCalc</string>
     <string name="welcome">Welcome to Tip Calculator</string>
     <string name="tip">Tip</string>
-    <string name="amount">Amount</string>
+    <string name="amount">Amount</string>\
+    <string-array name="percent_array">
+        <item>10%</item>
+        <item>15%</item>
+        <item>18%</item>
+        <item>20%</item>
+    </string-array>
 </resources>
